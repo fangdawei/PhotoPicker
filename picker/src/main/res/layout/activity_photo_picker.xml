@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+  <include
+      layout="@layout/toolbar_right_text"
+      android:id="@+id/ic_toolbar"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      />
+
+  <View
+      android:id="@+id/divider_top"
+      android:layout_width="match_parent"
+      android:layout_height="1dp"
+      android:layout_below="@id/ic_toolbar"
+      android:background="@color/divider_color"
+      />
+
+  <android.support.v7.widget.RecyclerView
+      android:id="@+id/rv_photo_grid"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_above="@id/divider_bottom"
+      android:layout_below="@id/divider_top"
+      android:background="@color/white"
+      >
+  </android.support.v7.widget.RecyclerView>
+
+  <View
+      android:id="@+id/divider_bottom"
+      android:layout_width="match_parent"
+      android:layout_height="1dp"
+      android:layout_above="@id/rl_bottom_box"
+      android:background="@color/divider_color"
+      />
+
+  <RelativeLayout
+      android:id="@+id/rl_bottom_box"
+      android:layout_width="match_parent"
+      android:layout_height="49dp"
+      android:layout_alignParentBottom="true"
+      >
+    <TextView
+        android:id="@+id/tv_preview"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical"
+        android:paddingLeft="19dp"
+        android:paddingRight="19dp"
+        android:text="预览"
+        android:textColor="#FF99A9BF"
+        android:textSize="14sp"
+        />
+    <TextView
+        android:id="@+id/tv_complete"
+        android:layout_width="75dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="19dp"
+        android:background="@drawable/shape_blue_btn"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        />
+  </RelativeLayout>
+</RelativeLayout>

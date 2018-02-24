@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+  <me.fdawei.picker.widget.AutoHeightImageView
+      android:id="@+id/iv_photo"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:scaleType="centerCrop"
+      />
+  <ImageView
+      android:id="@+id/iv_selection"
+      android:layout_width="43dp"
+      android:layout_height="43dp"
+      android:layout_alignParentRight="true"
+      android:paddingBottom="20dp"
+      android:paddingLeft="20dp"
+      android:paddingRight="5dp"
+      android:paddingTop="5dp"
+      android:src="@drawable/ic_selection_status"
+      />
+</RelativeLayout>

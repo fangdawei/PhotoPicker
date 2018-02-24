@@ -1,0 +1,14 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="me.fdawei.picker">
+
+  <application android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+    <activity android:name=".activity.PhotoPickerActivity"/>
+
+    <activity android:name=".activity.PhotoDirActivity"/>
+
+    <activity
+        android:name=".activity.PhotoPreviewActivity"
+        android:theme="@style/FullScreen"/>
+
+  </application>
+</manifest>

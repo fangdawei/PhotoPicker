@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFEFF2F7"
+    >
+
+  <android.support.v4.view.ViewPager
+      android:id="@+id/vp_photo_pager"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      >
+  </android.support.v4.view.ViewPager>
+
+  <RelativeLayout
+      android:id="@+id/rl_top_box"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@color/preview_cover"
+      >
+    <include
+        layout="@layout/toolbar_right_icon"
+        android:id="@+id/ic_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+  </RelativeLayout>
+
+  <LinearLayout
+      android:id="@+id/ll_bottom_box"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignParentBottom="true"
+      android:background="@color/preview_cover"
+      android:orientation="vertical"
+      >
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_photo_list"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        >
+    </android.support.v7.widget.RecyclerView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/preview_cover_divider"
+        />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        >
+      <TextView
+          android:id="@+id/tv_complete"
+          android:layout_width="75dp"
+          android:layout_height="30dp"
+          android:layout_alignParentRight="true"
+          android:layout_centerVertical="true"
+          android:layout_marginRight="19dp"
+          android:background="@drawable/shape_blue_btn"
+          android:gravity="center"
+          android:textColor="@color/white"
+          android:textSize="14sp"
+          />
+    </RelativeLayout>
+  </LinearLayout>
+
+</RelativeLayout>

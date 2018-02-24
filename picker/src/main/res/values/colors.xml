@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <color name="white">#FFFFFFFF</color>
+  <color name="divider_color">#FFE8ECF1</color>
+  <color name="blue">#FF20A0FF</color>
+  <color name="photo_cover">#99FFFFFF</color>
+  <color name="preview_cover">#E5FFFFFF</color>
+  <color name="preview_cover_divider">#E5E8ECF1</color>
+</resources>
