@@ -95,6 +95,7 @@ public class PhotoPagerAdapter extends PagerAdapter {
 
   public void setCurrentItem(Photo photo) {
     int position = photoList.indexOf(photo);
+    current = position;
     viewPager.setCurrentItem(position, false);
   }
 
@@ -111,13 +112,12 @@ public class PhotoPagerAdapter extends PagerAdapter {
     View itemView = viewCache.poll();
     if (itemView == null) {
       itemView = LayoutInflater.from(context).inflate(R.layout.item_photo_pager, container, false);
-      final ImageView iv = itemView.findViewById(R.id.iv_photo);
-      String imagePath = photo.getPath();
-      asynLoadImage(iv, imagePath);
     }
-    View img = itemView.findViewById(R.id.iv_photo);
-    img.setClickable(true);
-    img.setOnClickListener(itemClickListener);
+    final ImageView iv = itemView.findViewById(R.id.iv_photo);
+    String imagePath = photo.getPath();
+    asynLoadImage(iv, imagePath);
+    iv.setClickable(true);
+    iv.setOnClickListener(itemClickListener);
     container.addView(itemView);
     return itemView;
   }
@@ -134,6 +134,8 @@ public class PhotoPagerAdapter extends PagerAdapter {
   @Override public void destroyItem(ViewGroup container, int position, Object object) {
     View itemView = (View) object;
     container.removeView(itemView);
+    ImageView iv = itemView.findViewById(R.id.iv_photo);
+    iv.setImageBitmap(null);
     viewCache.push(itemView);
   }
 

@@ -57,7 +57,18 @@ public class PhotoPreviewListAdapter extends RecyclerView.Adapter {
         onItemClicked(position);
       }
     };
+  }
 
+  public void addData(Photo photo) {
+    Item item = new Item(photo);
+    itemList.add(item);
+    notifyDataSetChanged();
+  }
+
+  public void removeData(Photo photo) {
+    int position = findPhotoPosition(photo);
+    itemList.remove(position);
+    notifyDataSetChanged();
   }
 
   public void attachToRecyclerView(RecyclerView recyclerView) {
@@ -119,9 +130,17 @@ public class PhotoPreviewListAdapter extends RecyclerView.Adapter {
     if (position >= 0 && position < itemList.size()) {
       Item item = itemList.get(position);
       item.isSelected = isSelected;
+      PreviewPhotoViewHolder holder =
+          (PreviewPhotoViewHolder) recyclerView.findViewHolderForAdapterPosition(position);
+      if (holder != null) {
+        holder.setSelection(isSelected);
+      } else {
+        notifyItemChanged(position);
+      }
+    } else {
+      throw new IndexOutOfBoundsException(
+          String.format("item size = %d, position = %d", itemList.size(), position));
     }
-    throw new IndexOutOfBoundsException(
-        String.format("item size = %d, position = %d", itemList.size(), position));
   }
 
   public boolean getItemSelection(int position) {
@@ -132,11 +151,21 @@ public class PhotoPreviewListAdapter extends RecyclerView.Adapter {
     return false;
   }
 
+  public int getSelectedCount() {
+    int count = 0;
+    for (Item item : itemList) {
+      if (item.isSelected) {
+        count++;
+      }
+    }
+    return count;
+  }
+
   public int findPhotoPosition(Photo photo) {
     int position = -1;
-    for(int i = 0; i < itemList.size(); i++) {
+    for (int i = 0; i < itemList.size(); i++) {
       Item item = itemList.get(i);
-      if(item.photo.equals(photo)) {
+      if (item.photo.equals(photo)) {
         position = i;
         break;
       }
@@ -146,7 +175,7 @@ public class PhotoPreviewListAdapter extends RecyclerView.Adapter {
 
   public void setCurrentFocusPhoto(Photo photo) {
     int position = findPhotoPosition(photo);
-    if(position >= 0 && position < itemList.size()) {
+    if (position >= 0 && position < itemList.size()) {
       onItemClicked(position);
     } else {
       clearFocus();
@@ -158,8 +187,7 @@ public class PhotoPreviewListAdapter extends RecyclerView.Adapter {
       currentFocusItem.isFocus = false;
       int lastFocusPosition = itemList.indexOf(currentFocusItem);
       PreviewPhotoViewHolder lastHolder =
-          (PreviewPhotoViewHolder) recyclerView.findViewHolderForAdapterPosition(
-              lastFocusPosition);
+          (PreviewPhotoViewHolder) recyclerView.findViewHolderForAdapterPosition(lastFocusPosition);
       if (lastHolder != null) {
         lastHolder.setFocus(false);
       } else {
@@ -189,6 +217,16 @@ public class PhotoPreviewListAdapter extends RecyclerView.Adapter {
         itemFocusChangedListener.onItemFocus(position, item.photo);
       }
     }
+  }
+
+  public List<Photo> getSelectedPhotoList() {
+    List<Photo> selectedList = new ArrayList<>();
+    for (Item item : itemList) {
+      if (item.isSelected) {
+        selectedList.add(item.photo);
+      }
+    }
+    return selectedList;
   }
 
   class Item {
@@ -268,9 +306,9 @@ public class PhotoPreviewListAdapter extends RecyclerView.Adapter {
 
     @Override public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
       super.clearView(recyclerView, viewHolder);
-      if(photoOrderChangedListener != null){
+      if (photoOrderChangedListener != null) {
         List<Photo> photoList = new ArrayList<>();
-        for(Item item : itemList) {
+        for (Item item : itemList) {
           photoList.add(item.photo);
         }
         photoOrderChangedListener.onPhotoOrderChange(photoList);

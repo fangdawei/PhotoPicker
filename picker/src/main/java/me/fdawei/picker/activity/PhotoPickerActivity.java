@@ -102,6 +102,13 @@ public class PhotoPickerActivity extends AppCompatActivity
       } else if (resultCode == PhotoDirActivity.RESULT_FINISH) {
         onBackPressed();
       }
+    } else if (requestCode == REQUEST_PREVIEW) {
+      if (resultCode == RESULT_OK) {
+        List<Photo> selectedPhotoList =
+            data.getParcelableArrayListExtra(PhotoPicker.DATA_SELECTED_PHOTOS);
+        setSelectResult(selectedPhotoList);
+        finish();
+      }
     }
   }
 

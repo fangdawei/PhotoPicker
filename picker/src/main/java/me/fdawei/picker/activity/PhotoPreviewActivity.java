@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
+import me.fdawei.picker.PhotoPicker;
 import me.fdawei.picker.R;
 import me.fdawei.picker.adapter.PhotoPagerAdapter;
 import me.fdawei.picker.adapter.PhotoPreviewListAdapter;
@@ -100,7 +101,7 @@ public class PhotoPreviewActivity extends AppCompatActivity
     toolbar.setNavigationOnClickListener(v -> onBackPressed());
     ivRightIcon = toolbar.findViewById(R.id.iv_right_icon);
     ivRightIcon.setOnClickListener(v -> {
-
+      onRightIconClick();
     });
 
     rvPreviewPhotoList = findViewById(R.id.rv_photo_list);
@@ -121,6 +122,9 @@ public class PhotoPreviewActivity extends AppCompatActivity
 
     tvComplete = findViewById(R.id.tv_complete);
     tvComplete.setText(String.format("完成(%d/%d)", selectedPhotoList.size(), maxPhotoCount));
+    tvComplete.setOnClickListener(v -> {
+      onComplete();
+    });
 
     topBox = findViewById(R.id.rl_top_box);
     bottomBox = findViewById(R.id.ll_bottom_box);
@@ -129,6 +133,10 @@ public class PhotoPreviewActivity extends AppCompatActivity
   private void initStartupStatus() {
     photoPreviewListAdapter.setCurrentFocusPhoto(currentPhoto);
     photoPagerAdapter.setCurrentItem(currentPhoto);
+
+    int position = photoPreviewListAdapter.findPhotoPosition(currentPhoto);
+    boolean isSelected = photoPreviewListAdapter.getItemSelection(position);
+    setRightIcon(position + 1, isSelected);
   }
 
   private void setRightIcon(int position, boolean isSelected) {
@@ -139,6 +147,32 @@ public class PhotoPreviewActivity extends AppCompatActivity
     } else {
       ivRightIcon.setImageResource(R.drawable.ic_gray_selection_status);
     }
+  }
+
+  private void onRightIconClick() {
+    int position = photoPreviewListAdapter.findPhotoPosition(currentPhoto);
+    if (position < 0 || position >= photoPreviewListAdapter.getItemCount()) {
+      if (photoPreviewListAdapter.getSelectedCount() >= maxPhotoCount) {
+        return;
+      }
+      photoPreviewListAdapter.addData(currentPhoto);
+      photoPreviewListAdapter.setCurrentFocusPhoto(currentPhoto);
+    } else {//已经存在
+      boolean isSelected = photoPreviewListAdapter.getItemSelection(position);
+      if (isSelected) {
+        if (!isSynchro) {
+          photoPreviewListAdapter.removeData(currentPhoto);
+        } else {
+          photoPreviewListAdapter.setItemSelection(position, false);
+        }
+        setRightIcon(position + 1, false);
+      } else {
+        photoPreviewListAdapter.setItemSelection(position, true);
+        setRightIcon(position + 1, true);
+      }
+    }
+    tvComplete.setText(
+        String.format("完成(%d/%d)", photoPreviewListAdapter.getSelectedCount(), maxPhotoCount));
   }
 
   @Override public void onItemFocus(int position, Photo photo) {
@@ -167,7 +201,7 @@ public class PhotoPreviewActivity extends AppCompatActivity
   }
 
   @Override public void onPageClick() {
-    if(isFullScreen) {
+    if (isFullScreen) {
       topBox.setVisibility(View.VISIBLE);
       bottomBox.setVisibility(View.VISIBLE);
       isFullScreen = false;
@@ -176,5 +210,14 @@ public class PhotoPreviewActivity extends AppCompatActivity
       bottomBox.setVisibility(View.GONE);
       isFullScreen = true;
     }
+  }
+
+  private void onComplete() {
+    Intent intent = new Intent();
+    ArrayList<Photo> selectedPhotoList =
+        (ArrayList<Photo>) photoPreviewListAdapter.getSelectedPhotoList();
+    intent.putParcelableArrayListExtra(PhotoPicker.DATA_SELECTED_PHOTOS, selectedPhotoList);
+    setResult(RESULT_OK, intent);
+    finish();
   }
 }
