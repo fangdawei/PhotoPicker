@@ -81,7 +81,7 @@ public class PhotoDirAdapter extends RecyclerView.Adapter implements View.OnClic
     }
 
     public void bind(PhotoDir photoDir) {
-      ImageLoader.load(ivPreview, photoDir.getPreviewPhoto());
+      ImageLoader.load(context, ivPreview, photoDir.getPreviewPhoto());
       tvName.setText(photoDir.getName());
       tvCount.setText("" + photoDir.getPhotoCount());
     }

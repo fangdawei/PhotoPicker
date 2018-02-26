@@ -8,6 +8,8 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.GlideBuilder;
 import java.util.ArrayList;
 import java.util.List;
 import me.fdawei.picker.PhotoPicker;
@@ -123,6 +125,9 @@ public class PhotoPickerActivity extends AppCompatActivity
 
   private void onPreviewSelectedPhoto() {
     ArrayList<Photo> selectedPhotos = (ArrayList<Photo>) photoGridAdapter.getSelectedPhotoList();
+    if (selectedPhotos == null || selectedPhotos.size() == 0) {
+      return;
+    }
     PhotoPreviewActivity.startForResult(this, REQUEST_PREVIEW, selectedPhotos, selectCountLimit);
   }
 

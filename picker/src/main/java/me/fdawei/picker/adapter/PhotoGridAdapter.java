@@ -170,7 +170,7 @@ public class PhotoGridAdapter extends RecyclerView.Adapter {
     }
 
     public void bind(Photo photo) {
-      ImageLoader.load(ivPhoto, photo.getPath());
+      ImageLoader.load(context, ivPhoto, photo.getPath());
     }
 
     public void setSelected(int selectedIndex) {

@@ -122,9 +122,7 @@ public class PhotoPreviewActivity extends AppCompatActivity
 
     tvComplete = findViewById(R.id.tv_complete);
     tvComplete.setText(String.format("完成(%d/%d)", selectedPhotoList.size(), maxPhotoCount));
-    tvComplete.setOnClickListener(v -> {
-      onComplete();
-    });
+    tvComplete.setOnClickListener(v -> onComplete());
 
     topBox = findViewById(R.id.rl_top_box);
     bottomBox = findViewById(R.id.ll_bottom_box);

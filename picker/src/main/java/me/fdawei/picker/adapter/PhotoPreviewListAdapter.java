@@ -254,7 +254,7 @@ public class PhotoPreviewListAdapter extends RecyclerView.Adapter {
     }
 
     public void bind(Photo photo) {
-      ImageLoader.load(ivPhoto, photo.getPath());
+      ImageLoader.load(context, ivPhoto, photo.getPath());
     }
 
     public void setFocus(boolean isFocus) {

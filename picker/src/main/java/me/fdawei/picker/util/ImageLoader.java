@@ -12,11 +12,11 @@ import com.bumptech.glide.request.target.Target;
 
 public class ImageLoader {
 
-  public static void load(ImageView imageView, String image) {
+  public static void load(Context context, ImageView imageView, String image) {
     if (imageView == null) {
       return;
     }
-    Glide.with(imageView.getContext()).load(image).into(imageView);
+    Glide.with(context).load(image).into(imageView);
   }
 
   public static void loadBitmap(Context context, String image, Target<Bitmap> listener) {
