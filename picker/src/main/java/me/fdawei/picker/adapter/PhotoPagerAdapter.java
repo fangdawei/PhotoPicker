@@ -37,12 +37,12 @@ public class PhotoPagerAdapter extends PagerAdapter {
 
   public PhotoPagerAdapter(Context context, List<Photo> data) {
     this.context = context;
-    if(data != null) {
+    if (data != null) {
       photoList.addAll(data);
     }
 
     itemClickListener = v -> {
-      if(pageClickListener != null) {
+      if (pageClickListener != null) {
         pageClickListener.onPageClick();
       }
     };
@@ -58,8 +58,8 @@ public class PhotoPagerAdapter extends PagerAdapter {
       }
 
       @Override public void onPageSelected(int position) {
-        if(position != current) {
-          if(pageChangedListener != null) {
+        if (position != current) {
+          if (pageChangedListener != null) {
             pageChangedListener.onPageChange(position, photoList.get(position));
           }
         }
@@ -84,7 +84,7 @@ public class PhotoPagerAdapter extends PagerAdapter {
       return;
     }
     photoList.clear();
-    if(data != null) {
+    if (data != null) {
       photoList.addAll(data);
     }
     notifyDataSetChanged();
