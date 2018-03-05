@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -115,7 +116,7 @@ public class PhotoPagerAdapter extends PagerAdapter {
     }
     final ImageView iv = itemView.findViewById(R.id.iv_photo);
     String imagePath = photo.getPath();
-    asynLoadImage(iv, imagePath);
+    asynLoadImageByGlide(iv, imagePath);
     iv.setClickable(true);
     iv.setOnClickListener(itemClickListener);
     container.addView(itemView);
@@ -123,19 +124,36 @@ public class PhotoPagerAdapter extends PagerAdapter {
   }
 
   private void asynLoadImage(final ImageView iv, String path) {
+    ImageLoader.loadBitmap(path, bmp -> {
+      int size = bmp.getByteCount();
+      Log.d("load image", "size:" + size / 1024 + "KB");
+      iv.setTag(bmp);
+      iv.setImageBitmap(bmp);
+    });
+  }
+
+  private void asynLoadImageByGlide(final ImageView iv, String path) {
     ImageLoader.loadBitmap(context, path, new SimpleTarget<Bitmap>() {
       @Override
       public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+        int size = resource.getByteCount();
+        Log.d("load image", "size:" + size / 1024 + "KB");
         iv.setImageBitmap(resource);
       }
     });
   }
+
 
   @Override public void destroyItem(ViewGroup container, int position, Object object) {
     View itemView = (View) object;
     container.removeView(itemView);
     ImageView iv = itemView.findViewById(R.id.iv_photo);
     iv.setImageBitmap(null);
+    Bitmap bitmap = (Bitmap) iv.getTag();
+    iv.setTag(null);
+    if(bitmap != null) {
+      bitmap.recycle();
+    }
     viewCache.push(itemView);
   }
 
